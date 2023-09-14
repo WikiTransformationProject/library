@@ -18,8 +18,9 @@ $pageName = "imagetest3.aspx"
 # ensure image exists and get path
 $item = Get-Item $imageFilename -ErrorAction Stop
 
-if (!$connection -and $connection.Url -eq $siteUrl)
+if (!$connection -or $connection.Url -ne $siteUrl)
 {
+    $connection = $null
     # connect to SharePoint
     $connection = Connect-PnPOnline $siteUrl -Interactive -ReturnConnection
 }
