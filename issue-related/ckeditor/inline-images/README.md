@@ -4,7 +4,7 @@ Repro for [Modern pages with text web parts upgraded from CKEditor v4 to v5 lose
 
 ## What does it do?
 
-This script creates a modern SharePoint page with a text web part. This text web part uses CKEditor v4.
+This script creates a modern SharePoint page with a text web part. This text web part uses CKEditor v4 (`contentVersion` is set to `4`).
 
 The text web part shows 4 inline images, which reference 4 image web parts. Those image web parts all point to the same image file.
 
