@@ -26,10 +26,10 @@ The script should create a modern page with images.
 
 ## Images
 
-The page should look like this in view mode:
+The page should look like this in view mode (CKEditor v4):
 
 ![Page in view mode](https://github.com/WikiTransformationProject/library/blob/main/issue-related/ckeditor/inline-images/images/page-view-mode.png)
 
-And like this in edit mode:
+And like this in edit mode (CKEditor v4):
 
 ![Page in edit mode](https://github.com/WikiTransformationProject/library/blob/main/issue-related/ckeditor/inline-images/images/page-edit-mode.png)
