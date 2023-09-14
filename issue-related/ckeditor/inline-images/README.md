@@ -28,8 +28,8 @@ The script should create a modern page with images.
 
 The page should look like this in view mode:
 
-[[https://github.com/username/repository/blob/master/issue-related/ckeditor/inline-images/images/page-view-mode.png]]
+[[https://github.com/WikiTransformationProject/library/blob/master/issue-related/ckeditor/inline-images/images/page-view-mode.png]]
 
 And like this in edit mode:
 
-[[https://github.com/username/repository/blob/master/issue-related/ckeditor/inline-images/images/page-edit-mode.png]]
+[[https://github.com/WikiTransformationProject/library/blob/master/issue-related/ckeditor/inline-images/images/page-edit-mode.png]]
