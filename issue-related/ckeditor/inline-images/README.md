@@ -24,12 +24,31 @@ And there is one trick: the fourth image is centered, which prevents the text fr
 
 The script should create a modern page with images.
 
-## Images
+## Visuals
 
-The page should look like this in view mode (CKEditor v4):
+### Expected behavior
+
+The page should look like this in **view** mode (CKEditor **v4**):
 
 ![Page in view mode](https://github.com/WikiTransformationProject/library/blob/main/issue-related/ckeditor/inline-images/images/page-view-mode.png)
 
-And like this in edit mode (CKEditor v4):
+And like this in **edit** mode (CKEditor **v4**):
 
 ![Page in edit mode](https://github.com/WikiTransformationProject/library/blob/main/issue-related/ckeditor/inline-images/images/page-edit-mode.png)
+
+### Unexpected behavior / Regression
+
+This video shows the auto-upgrade in action that SharePoint does when editing a page, inlcuding mispositioned and even vanishing images:
+
+![Text web part is being upgraded - and breaks images](https://github.com/WikiTransformationProject/library/blob/main/issue-related/ckeditor/inline-images/images/sharepoint-text-web-part-upgrade-breaks-inline-image-positioning.mp4)
+
+I used the browser's developer tools to slow down the internet connection, which allows us to watch everything in slow motion.
+
+What can be seen in above video:
+
+1. the page enters edit mode and the images can be seen next to each other for a brief moment
+2. then all web part content vanishes; the auto-upgrade happens
+3. the web part content reappears; the images are placed on top of each other
+4. bonus: all images are gone! (this was a first when recording this video)
+
+This is a regression. Microsoft, please restore the behavior as it was with CKEditor v4. The images need to be shown next to each other.
