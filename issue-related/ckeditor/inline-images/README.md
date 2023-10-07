@@ -57,7 +57,7 @@ Editing this page worked perfectly fine for at least the last 12 months. Images 
 
 One of the ways to see which CKEditor version a SharePoint page uses can be seen in the browser's developer tools.
 
-Looking at the CSS styles you'll see the `.rte--ck5` selector, both in view and edit mode of a page:
+Looking at the CSS styles you'll see the `.rte--ck5` selector, both in view and edit mode of a page. This means the page uses CKEditor v5:
 
 ![Upgraded page styles](https://github.com/WikiTransformationProject/library/blob/main/issue-related/ckeditor/inline-images/images/ckeditor-v5-style.png)
 
