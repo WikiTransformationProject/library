@@ -66,3 +66,5 @@ As of writing this there is no information if this feature is already GA. So the
 ## Plea
 
 This is a regression for modern SharePoint pages using inline images. Microsoft, please restore the behavior as it was before upgrading (perfectly fine) old pages. The inline images need to be shown next to each other.
+
+I opened a support request with Microsoft, the ID is 2310071420000151.
