@@ -38,7 +38,7 @@ And like this in **edit** mode (CKEditor **v4**):
 
 ### Unexpected behavior / Regression with CKEditor v5
 
-This video shows the text web part auto-upgrade in action that SharePoint does when editing a page, inlcuding mispositioned and even vanishing images:
+This video shows the text web part auto-upgrade in action that SharePoint does when editing a page, including mispositioned and even vanishing images:
 
 https://github.com/WikiTransformationProject/library/assets/3469970/6a38d672-94be-48c9-a912-d946bd6e436f
 
