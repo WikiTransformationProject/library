@@ -40,7 +40,8 @@ And like this in **edit** mode (CKEditor **v4**):
 
 This video shows the auto-upgrade in action that SharePoint does when editing a page, inlcuding mispositioned and even vanishing images:
 
-https://github.com/WikiTransformationProject/library/blob/main/issue-related/ckeditor/inline-images/images/sharepoint-text-web-part-upgrade-breaks-inline-image-positioning.mp4
+https://github.com/WikiTransformationProject/library/assets/3469970/6a38d672-94be-48c9-a912-d946bd6e436f
+
 
 I used the browser's developer tools to slow down the internet connection, which allows us to watch everything in slow motion.
 
