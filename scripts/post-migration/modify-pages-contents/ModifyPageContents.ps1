@@ -13,7 +13,7 @@
 # the client (application) ID of the WikiTraccs Azure AD application (like in WikiTraccs.GUI)
 # CHANGE ME!:
 $wikiTraccsClientId = "31359c7f-bd7e-475c-86db-fdb8c937548e"
-# the site you want to enable or disable the page comments for; use a site collection or site owner account to connect
+# the site of the page you want to modify
 # CHANGE ME:
 $siteUrl = "https://contoso.sharepoint.com/sites/site1"
 # file name of the page to search the text web part in
