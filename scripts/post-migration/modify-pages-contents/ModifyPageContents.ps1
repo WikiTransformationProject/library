@@ -3,6 +3,13 @@
 
     Note: This will replace the last page version (not add a new one).
 
+    Important: There is a pretty way to work with text web parts, via Set-PnPPageTextPart, which unfortunately does not always work. Sometimes
+      it removes the whole web part... That's why where is a second way to deal with page contents, which works on the raw page content that
+      is stored in the CanvasContent1 field of the page's list item.
+
+      Both ways are shown here. The pretty way is activated by setting $doesThePrettyWayWork to $true. The second way is activated by setting $doesTheUglyWayWork
+      to $true. Don't set both at the same time.
+
     Prerequisites:
     - run with PowerShell 7
     - install the PnP.PowerShell module using this command: Install-Module PnP.PowerShell -Scope CurrentUser
@@ -20,6 +27,8 @@ $siteUrl = "https://contoso.sharepoint.com/sites/site1"
 # CHANGE ME:
 $pageFilename = "SPACE-eProcurement-dashboard-123456789.aspx"
 # the (HTML) text to be replaced; note: web part text content is HTML - so this contains tags like <p> etc.
+# IMPORTANT: YOU WILL MOST LIKELY HAVE TO LOOK AT THE RAW PAGE CONTENT TO FIND THE TEXT TO REPLACE AS IT MIGHT CONTAIN ENCODED CHARACTERS
+#   HAVE A LOOK AT THE $rawPageContent VARIABLE DOWN BELOW IN THE SCRIPT
 # CHANGE ME:
 $replaceWhat = '🚧'
 # the (HTML) text to replace with; note: this replacement must not result in invalid HTML! make sure to HTML-encode entities like <, &, " etc.
@@ -83,24 +92,51 @@ if (-not $site -or -not $site.Url -or $site.Url.ToString().TrimEnd("/") -ne $sit
 }
 Write-Host "[ok] Connected to site '$siteUrl'" -ForegroundColor Green
 
-$page = Get-PnPPage $pageFilename -Connection $siteConnection
-$pageTextWebParts = Get-PnPPageComponent -Page $page -Connection $siteConnection | Where-Object { $_.Type.Name -eq "PageText" }
-if (-not $pageTextWebParts -or -not $pageTextWebParts.Count)
+$doesTheUglyWayWork = $true
+if ($doesTheUglyWayWork) 
 {
-    Write-Host "No text web parts found, exiting"
-    exit
+    $sitePagesLib = Get-PnPList "SitePages" -Connection $siteConnection
+    $rootFolder = Get-PnPProperty -ClientObject $sitePagesLib -Property RootFolder -Connection $siteConnection
+    # $rootFolder.ServerRelativeUrl is like "/sites/site1/SitePages"
+    $fileUrl = "$($rootFolder.ServerRelativeUrl)/$pageFilename"
+    Write-Host "Modifying raw content of page $($fileUrl)"
+    $pageListItem = Get-PnPFile -Url $fileUrl -AsListItem -Connection $siteConnection
+
+    # note: this content contains a mix of HTML and JSON, sometimes double or triple-encoded; simply replacing something in here will probably only work
+    # for easy text replacements; otherwise more code is needed to cope with encodings
+    $rawPageContent = $pageListItem["CanvasContent1"]
+
+    # print raw content to console...
+    $rawPageContent
+    $newRawPageContent = $rawPageContent.Replace($replaceWhat, $replaceWith)
+    $pageListItem["CanvasContent1"] = $newRawPageContent
+    $pageListItem.Update()
+    Invoke-PnPQuery -Connection $siteConnection
 }
 
-Write-Host "[ok] Got $($pageTextWebParts.Count) text web parts, modifying first one (adjust code here if you want to select which web part to modify)" -ForegroundColor Green
-$textWebPart = $pageTextWebParts | Select-Object -First 1
-Write-Host "Handling text webpart with ID $($textWebPart.InstanceId)"
-$instanceId = $textWebPart.InstanceId
-# get the web part text content; this is HTML
-$webPartText = $textWebPart.Text
+# unfortunately, this easy way to set text web part content via PnP PowerShell does not always work!?
+$doesThePrettyWayWork = $false
+if ($doesThePrettyWayWork) 
+{
+    $page = Get-PnPPage $pageFilename -Connection $siteConnection
+    $pageTextWebParts = Get-PnPPageComponent -Page $page -Connection $siteConnection | Where-Object { $_.Type.Name -eq "PageText" }
+    if (-not $pageTextWebParts -or -not $pageTextWebParts.Count)
+    {
+        Write-Host "No text web parts found, exiting"
+        exit
+    }
 
-# modify text content, here: replace an emoji
-$newWebPartText = $webPartText.Replace($replaceWhat, $replaceWith)
+    Write-Host "[ok] Got $($pageTextWebParts.Count) text web parts, modifying first one (adjust code here if you want to select which web part to modify)" -ForegroundColor Green
+    $textWebPart = $pageTextWebParts | Select-Object -First 1
+    Write-Host "Handling text webpart with ID $($textWebPart.InstanceId)"
+    $instanceId = $textWebPart.InstanceId
+    # get the web part text content; this is HTML
+    $webPartText = $textWebPart.Text
 
-Write-Host "Setting new web part content..."
-Set-PnPPageTextPart -Page $page -InstanceId $instanceId -Text $newWebPartText -Connection $siteConnection
-Write-Host "Done: Setting new web part content"
+    # modify text content, here: replace an emoji
+    $newWebPartText = $webPartText.Replace($replaceWhat, $replaceWith)
+
+    Write-Host "Setting new web part content..."
+    Set-PnPPageTextPart -Page $page -InstanceId $instanceId -Text $newWebPartText -Connection $siteConnection
+    Write-Host "Done: Setting new web part content"
+}
