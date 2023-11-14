@@ -37,3 +37,25 @@ if ($version.Major -ne $expectedMajorVersion -or $version.Minor -lt $expectedMin
     exit
 }
 Write-Host "[ok] Using PnP.PowerShell $($version)" -ForegroundColor Green
+
+
+function ConnectOrReuse($connection, [string]$siteUrl, [string]$azureAdApplicationClientId)
+{
+  # reuse an existing connection to a site to not have to log in every time the script runs
+  if (-not $connection -or $connection.Url -ne $siteUrl) {
+    $connection = $null
+  }
+  if (-not $connection) {
+    Write-Host "Waiting for you to log in to the Microsoft login experience; note: this window might open behind the window you are currently in! Check for new windows in the task bar." -ForegroundColor Yellow
+    $connection = Connect-PnPOnline -Url $siteUrl -ClientId $azureAdApplicationClientId -Interactive -ReturnConnection
+  }
+  # check connection
+  $site = Get-PnPSite -Connection $connection
+  if (-not $site -or -not $site.Url -or $site.Url.ToString().TrimEnd("/") -ne $siteUrl.TrimEnd("/")) {
+    Write-Error "[error] Could not connect to $siteUrl"
+    exit
+  }
+  Write-Host "[ok] Connected to site '$siteUrl'" -ForegroundColor Green
+
+  $connection
+}
