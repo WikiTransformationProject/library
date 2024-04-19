@@ -175,7 +175,7 @@ function CreateAndUpdatePages()
                 $page.Publish()
             }
             $pageIdMappingOldToNew[$row.PageId] = $page.PageId
-            $pageIdMappingOldToNew
+            $pageIdMappingOldToNew.Count
             Write-Host "$($row.Name) - Done"
         }
     } else {
@@ -223,7 +223,13 @@ function CreateAndUpdateHierarchyListItems()
                 Write-Host "$($row.PageId) - Adding..."
                 $null = Add-PnPListItem -List $hierarchyList -Values $values -Connection $connection
             } else {
-                Write-Host "$($row.PageId) - Exists"
+                Write-Host "$($row.PageId) - Exists, Updating"
+                $values = @{
+                    "WtPId" = $pageId
+                    "WtPPId" = $parentPageId
+                }
+                Write-Host "$($row.PageId) - Adding..."
+                $null = Set-PnPListItem -Identity $existingItem -List $hierarchyList -Values $values -Connection $connection
             }
             Write-Host "$($row.PageId) - Done"
         }
@@ -232,7 +238,7 @@ function CreateAndUpdateHierarchyListItems()
     }
 }
 
-function CreateChildPagesForConfluencePage([string]$cfParentId, [int]$numberofPages, [int]$cfIdStart, [int]$idStep)
+function CreateChildPagesForConfluencePage([string]$cfParentId, [long]$numberofPages, [long]$cfIdStart, [long]$idStep)
 {
     # PageId, ParentPageId, ForeignId, ForeignParentId, Rank, Source, Order, SortModeForChildren, Name, CfSpaceKey, CfTitle
     
@@ -263,7 +269,7 @@ function CreateChildPagesForConfluencePage([string]$cfParentId, [int]$numberofPa
     return $pageIds
 }
 
-function CreateVanillaPages([int]$parentPageId, [int]$numberofPages, [int]$idStart, [int]$idStep)
+function CreateVanillaPages([long]$parentPageId, [long]$numberofPages, [long]$idStart, [long]$idStep)
 {
     # PageId, ParentPageId, ForeignId, ForeignParentId, Rank, Source, Order, SortModeForChildren, Name, CfSpaceKey, CfTitle
     $pageIds = @()
@@ -311,7 +317,7 @@ function CreateVanillaPages([int]$parentPageId, [int]$numberofPages, [int]$idSta
     return $pageIds
 }
 
-function CreateHierarchyListEntries([int]$parentId, [int[]]$childIds)
+function CreateHierarchyListEntries([long]$parentId, [long[]]$childIds)
 {
     # PageId, ParentPageId, ForeignId, ForeignParentId, Rank, Source, Order, SortModeForChildren, Name, CfSpaceKey, CfTitle
     
@@ -339,59 +345,95 @@ function CreateHierarchyListEntries([int]$parentId, [int[]]$childIds)
 
 function CreateTestCsv()
 {
-    $numberOfRoots = 12
-    $numberOfChildren = 10
-    $numberOfGrandchildren = 8
-    # root pages: 100000, 110000, 120000...
-    $rootPages = CreateChildPagesForConfluencePage -cfParentId "0" -numberofPages $numberOfRoots -cfIdStart 100000 -idStep 10000
+    $numberOfRoots = 11
+    $numberOfMigChildren = 7
+    # little bit more vanilla children to push hierarchy list beyong 5000 elements
+    $numberOfVanillaChildren = 12
+    $numberOfGrandchildren = 9
+    $numberOfLeaves = 3
+
+    $rootPageIdStartMultiplier   = 100000000000000
+    $rootPageIdStep              = 1000000000000
+    $childPageIdStartOffset      = 10000000000
+    $childPageIdStep             = 100000000
+    $grandchildPageIdStartOffset = 1000000
+    $grandchildPageIdStep        = 10000
+    $leafPageIdStartOffset       = 100
+    $leafPageIdStep              = 1
+
+    # root pages: 10000000, 10100000, 10200000...
+    $rootPages = CreateChildPagesForConfluencePage -cfParentId "0" -numberofPages $numberOfRoots -cfIdStart (1*$rootPageIdStartMultiplier) -idStep $rootPageIdStep
     $rootPageIds = $rootPages | Select-Object -ExpandProperty PageId
 
     $childPages = @()
-    $grandChildPages = @()
-    $pagesToRelocate = @()
+    $grandchildPages = @()
+    $childPagesToRelocate = @()
+    $leavesToRelocate = @()
     foreach ($rootPageId in $rootPageIds)
     {
-        $childPages = CreateChildPagesForConfluencePage -cfParentId $rootPageId.ToString() -numberofPages $numberOfChildren -cfIdStart ($rootPageId+1000) -idStep 1000
+        $childPages = CreateChildPagesForConfluencePage -cfParentId $rootPageId.ToString() -numberofPages $numberOfMigChildren -cfIdStart ($rootPageId+$childPageIdStartOffset) -idStep $childPageIdStep
         # move some pages from every child page collection
-        $pagesToRelocate += ($childPages | Select-Object -First 1)
-        $pagesToRelocate += ($childPages | Select-Object -Last 1)
+        $childPagesToRelocate += ($childPages | Select-Object -First 1)
+        $childPagesToRelocate += ($childPages | Select-Object -Last 1)
 
         $childPageIds = $childPages | Select-Object -ExpandProperty PageId
         foreach ($childPageId in $childPageIds)
         {
-            $grandChildPages = CreateChildPagesForConfluencePage -cfParentId $childPageId.ToString() -numberofPages $numberOfGrandchildren -cfIdStart ($childPageId+100) -idStep 100
+            $grandchildPages = CreateChildPagesForConfluencePage -cfParentId $childPageId.ToString() -numberofPages $numberOfGrandchildren -cfIdStart ($childPageId+$grandchildPageIdStartOffset) -idStep $grandchildPageIdStep
+
+            # move some pages from every child page collection
+            $leavesToRelocate += ($grandchildPages | Select-Object -First 1)
+            $leavesToRelocate += ($grandchildPages | Select-Object -Last 1)
+
+            $grandchildPageIds = $grandchildPages | Select-Object -ExpandProperty PageId
+            foreach ($grandchildPageId in $grandchildPageIds)
+            {
+                CreateChildPagesForConfluencePage -cfParentId $grandchildPageId.ToString() -numberofPages $numberOfLeaves -cfIdStart ($grandchildPageId+$leafPageIdStartOffset) -idStep $leafPageIdStep
+            }
         }
     }
 
-    # vanilla root pages: 200000, 210000, 220000...
-    $vanillaRootPages = CreateVanillaPages -numberofPages $numberOfRoots -idStart 200000 -idStep 10000
+    # vanilla root pages: 20000000, 20100000, 20200000...
+    $vanillaRootPages = CreateVanillaPages -numberofPages $numberOfRoots -idStart (2*$rootPageIdStartMultiplier) -idStep $rootPageIdStep
     $vanillaRootPageIds = $vanillaRootPages | Select-Object -ExpandProperty PageId
     # now some "manually placed" vanilla child pages
     foreach ($vanillaRootPageId in $vanillaRootPageIds)
     {
-        $childPages = CreateVanillaPages -parentPageId $vanillaRootPageId -numberofPages $numberOfChildren -idStart ($vanillaRootPageId+1000) -idStep 1000
+        $childPages = CreateVanillaPages -parentPageId $vanillaRootPageId -numberofPages $numberOfVanillaChildren -idStart ($vanillaRootPageId+$childPageIdStartOffset) -idStep $childPageIdStep
 
         # move some pages from every child page collection
-        $pagesToRelocate += ($childPages | Select-Object -First 1)
-        $pagesToRelocate += ($childPages | Select-Object -Last 1)
+        $childPagesToRelocate += ($childPages | Select-Object -First 1)
+        $childPagesToRelocate += ($childPages | Select-Object -Last 1)
 
         $childPageIds = $childPages | Select-Object -ExpandProperty PageId
         foreach ($childPageId in $childPageIds)
         {
-            $grandChildPages = CreateVanillaPages -parentPageId $childPageId.ToString() -numberofPages $numberOfGrandchildren -idStart ($childPageId+100) -idStep 100
+            $grandchildPages = CreateVanillaPages -parentPageId $childPageId.ToString() -numberofPages $numberOfGrandchildren -idStart ($childPageId+$grandchildPageIdStartOffset) -idStep $grandchildPageIdStep
+
+            # move some pages from every child page collection
+            $leavesToRelocate += ($grandchildPages | Select-Object -First 1)
+            $leavesToRelocate += ($grandchildPages | Select-Object -Last 1)
+
+            $grandchildPageIds = $grandchildPages | Select-Object -ExpandProperty PageId
+            foreach ($grandchildPageId in $grandchildPageIds)
+            {
+                CreateVanillaPages -parentPageId $grandchildPageId.ToString() -numberofPages $numberOfLeaves -idStart ($grandchildPageId+$leafPageIdStartOffset) -idStep $leafPageIdStep
+            }
         }
     }
 
-    # now relocate some pages
-    CreateHierarchyListEntries -parentId $vanillaRootPages[0].PageId -childIds ($pagesToRelocate | Select-Object -ExpandProperty PageId)
+    # now relocate some pages; note: this creates duplicates in the CSV, but later it will just update the existing item with the last value from the CSV
+    CreateHierarchyListEntries -parentId $vanillaRootPages[0].PageId -childIds ($childPagesToRelocate | Select-Object -ExpandProperty PageId)
+    CreateHierarchyListEntries -parentId $vanillaRootPages[1].PageId -childIds ($leavesToRelocate | Select-Object -ExpandProperty PageId)
 }
 
 # use this to create new test data files based on changed parameters above
 #CreateTestCsv
 
 # delete all existing pages and hierarchy list items
-DeleteAllHierarchyListItems
-DeleteAllPagesExceptHome
+#DeleteAllHierarchyListItems
+#DeleteAllPagesExceptHome
+
 # create new pages and hierarchy list items based on CSV file content - this will take a while
 CreateAndUpdatePages
 CreateAndUpdateHierarchyListItems
