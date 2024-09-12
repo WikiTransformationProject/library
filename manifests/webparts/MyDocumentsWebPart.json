@@ -1,0 +1,107 @@
+{
+    "manifestVersion": 2,
+    "id": "b519c4f1-5cf7-4586-a678-2f1c62cc175a",
+    "alias": "MyDocumentsWebPart",
+    "componentType": "WebPart",
+    "version": "1.0.0",
+    "safeWithCustomScriptDisabled": true,
+    "supportsThemeVariants": true,
+    "preconfiguredEntries": [
+        {
+            "groupId": "1edbd9a8-0bfb-4aa2-9afd-14b8c45dd489",
+            "group": {
+                "default": "Media and Content",
+                "en-US": "Media and Content"
+            },
+            "title": {
+                "default": "Recent documents",
+                "en-US": "Recent documents"
+            },
+            "description": {
+                "default": "Display recent documents for the current user",
+                "en-US": "Display recent documents for the current user"
+            },
+            "officeFabricIconFontName": "Clock",
+            "properties": {}
+        }
+    ],
+    "experimentalData": {
+        "flexibleLayoutSizing": {
+            "supportsDynamicResizing": true,
+            "defaultColumnWidth": 6,
+            "defaultRowHeight": 29
+        }
+    },
+    "loaderConfig": {
+        "internalModuleBaseUrls": [
+            "https://res-1.cdn.office.net:443/files/sp-client/",
+            "https://res-2.cdn.office.net:443/files/sp-client/"
+        ],
+        "entryModuleId": "sp-my-documents-webpart",
+        "scriptResources": {
+            "sp-my-documents-webpart": {
+                "type": "localizedPath",
+                "paths": {
+                    "default": {
+                        "path": "sp-my-documents-webpart_en-us_b407ccfdb4514af94670.js",
+                        "integrity": "sha256-upzoHVHHgt5rSw46BABbpVfOz4sFcgljgWGH4BLdQJw="
+                    },
+                    "en-US": {
+                        "path": "sp-my-documents-webpart_en-us_b407ccfdb4514af94670.js",
+                        "integrity": "sha256-upzoHVHHgt5rSw46BABbpVfOz4sFcgljgWGH4BLdQJw="
+                    }
+                },
+                "defaultPath": {
+                    "path": "sp-my-documents-webpart_en-us_b407ccfdb4514af94670.js",
+                    "integrity": "sha256-upzoHVHHgt5rSw46BABbpVfOz4sFcgljgWGH4BLdQJw="
+                }
+            },
+            "tslib": {
+                "type": "component",
+                "id": "01c4df03-e775-48cb-aa14-171ee5199a15",
+                "version": "2.3.1"
+            },
+            "@microsoft/sp-core-library": {
+                "type": "component",
+                "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b",
+                "version": "1.20.0"
+            },
+            "@microsoft/sp-http": {
+                "type": "component",
+                "id": "c07208f0-ea3b-4c1a-9965-ac1b825211a6",
+                "version": "1.20.0"
+            },
+            "@microsoft/sp-property-pane": {
+                "type": "component",
+                "id": "f9e737b7-f0df-4597-ba8c-3060f82380db",
+                "version": "1.20.0"
+            },
+            "@ms/odsp-utilities-bundle": {
+                "type": "component",
+                "id": "cc2cc925-b5be-41bb-880a-f0f8030c6aff",
+                "version": "5.6.195"
+            },
+            "@ms/sp-dataproviders": {
+                "type": "component",
+                "id": "1cea229f-b208-4202-8014-22503d92a019",
+                "version": "0.1.0"
+            },
+            "@ms/sp-heading-level": {
+                "type": "component",
+                "id": "bf211556-3cf0-412c-9618-a4f0e7069ebf",
+                "version": "0.1.0"
+            },
+            "@ms/sp-webpart-shared": {
+                "type": "component",
+                "id": "914330ee-2df2-4f6e-a858-30c23a812408",
+                "version": "2.2.20"
+            },
+            "@ms/sp-list-document-layout": {
+                "type": "component",
+                "id": "c6eb85d4-7fd2-4938-bfb8-5a899344ee86",
+                "version": "0.1.0"
+            }
+        }
+    },
+    "isInternal": true
+}
