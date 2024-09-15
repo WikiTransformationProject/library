@@ -1,0 +1,651 @@
+{
+    "id": "c70391ea-0b10-4ee9-b2b4-006d3fcad0cd",
+    "alias": "QuickLinksWebPart",
+    "componentType": "WebPart",
+    "version": "1.0.0",
+    "manifestVersion": 2,
+    "supportsThemeVariants": true,
+    "preconfiguredEntries": [
+        {
+            "groupId": "cf066440-0614-43d6-98ae-0b31cf14c7c3",
+            "group": {
+                "default": "Text, media, and content",
+                "en-US": "Text, media, and content"
+            },
+            "title": {
+                "default": "Quick links",
+                "en-US": "Quick links"
+            },
+            "description": {
+                "default": "Show a collection of links to content such as documents, images, videos, and more in a variety of layouts with options for icons, images, and audience targeting.",
+                "en-US": "Show a collection of links to content such as documents, images, videos, and more in a variety of layouts with options for icons, images, and audience targeting."
+            },
+            "officeFabricIconFontName": "Globe",
+            "properties": {
+                "items": [],
+                "isMigrated": true,
+                "layoutId": "CompactCard",
+                "layoutComponentId": "706e33c8-af37-4e7b-9d22-6e5694d92a6f",
+                "shouldShowThumbnail": true
+            }
+        }
+    ],
+    "propertiesMetadata": {
+        "current": {
+            "items": [
+                {
+                    "image": {
+                        "guids": {
+                            "siteId": {
+                                "spfxDependency": {
+                                    "dependencyType": "image",
+                                    "identifierType": "SiteGuid",
+                                    "name": "image"
+                                }
+                            },
+                            "listId": {
+                                "spfxDependency": {
+                                    "dependencyType": "image",
+                                    "identifierType": "ListGuid",
+                                    "name": "image"
+                                }
+                            },
+                            "webId": {
+                                "spfxDependency": {
+                                    "dependencyType": "image",
+                                    "identifierType": "WebGuid",
+                                    "name": "image"
+                                }
+                            },
+                            "uniqueId": {
+                                "spfxDependency": {
+                                    "dependencyType": "image",
+                                    "identifierType": "UniqueGuid",
+                                    "name": "image"
+                                }
+                            }
+                        },
+                        "url": {
+                            "spfxDependency": {
+                                "dependencyType": "image",
+                                "identifierType": "Url",
+                                "identifierUrlSubType": 29
+                            },
+                            "spfxImageSource": true
+                        }
+                    },
+                    "sourceItem": {
+                        "guids": {
+                            "uniqueId": {
+                                "spfxDependency": {
+                                    "dependencyType": "link",
+                                    "identifierType": "UniqueGuid",
+                                    "name": "sourceItem"
+                                }
+                            },
+                            "siteId": {
+                                "spfxDependency": {
+                                    "dependencyType": "link",
+                                    "identifierType": "SiteGuid",
+                                    "name": "sourceItem"
+                                }
+                            },
+                            "webId": {
+                                "spfxDependency": {
+                                    "dependencyType": "link",
+                                    "identifierType": "WebGuid",
+                                    "name": "sourceItem"
+                                }
+                            },
+                            "listId": {
+                                "spfxDependency": {
+                                    "dependencyType": "link",
+                                    "identifierType": "ListGuid",
+                                    "name": "sourceItem"
+                                }
+                            }
+                        },
+                        "url": {
+                            "spfxDependency": {
+                                "dependencyType": "link",
+                                "identifierType": "Url",
+                                "identifierUrlSubType": 29
+                            },
+                            "spfxLink": true
+                        }
+                    },
+                    "title": {
+                        "spfxSearchablePlainText": true
+                    },
+                    "rawPreviewImageUrl": {
+                        "spfxDependency": {
+                            "dependencyType": "image",
+                            "identifierType": "Url",
+                            "identifierUrlSubType": 8
+                        },
+                        "spfxImageSource": true
+                    }
+                }
+            ],
+            "webId": {
+                "spfxDependency": {
+                    "dependencyType": "web",
+                    "identifierType": "WebGuid",
+                    "name": "currentWeb"
+                }
+            },
+            "siteId": {
+                "spfxDependency": {
+                    "dependencyType": "web",
+                    "identifierType": "SiteGuid",
+                    "name": "currentWeb"
+                }
+            },
+            "baseUrl": {
+                "spfxDependency": {
+                    "dependencyType": "web",
+                    "identifierType": "Url",
+                    "identifierUrlSubType": 4
+                },
+                "spfxLink": true
+            }
+        }
+    },
+    "jsonSchema": {
+        "2.*": {
+            "type": "object",
+            "properties": {
+                "addToPageScreenReaderLabel": {
+                    "type": "string"
+                },
+                "baseUrl": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IQuickLink"
+                    }
+                },
+                "imageWidth": {
+                    "type": "number"
+                },
+                "dataProviderComponentId": {
+                    "type": "string"
+                },
+                "isMigrated": {
+                    "type": "boolean"
+                },
+                "dataProviderId": {
+                    "type": "string"
+                },
+                "hideWebPartWhenEmpty": {
+                    "type": "boolean"
+                },
+                "shouldShowThumbnail": {
+                    "type": "boolean"
+                },
+                "layoutComponentId": {
+                    "type": "string"
+                },
+                "commandOverrides": {
+                    "$ref": "#/definitions/IQuickLinksCommandProps"
+                },
+                "buttonLayoutOptions": {
+                    "$ref": "#/definitions/IButtonLayoutOptions"
+                },
+                "listLayoutOptions": {
+                    "$ref": "#/definitions/IListLayoutOptions"
+                },
+                "waffleLayoutOptions": {
+                    "$ref": "#/definitions/IWaffleLayoutOptions"
+                },
+                "isAudienceTargetingEnabled": {
+                    "type": "boolean"
+                },
+                "isTitleEnabled": {
+                    "type": "boolean"
+                },
+                "headingLevel": {
+                    "type": "number"
+                },
+                "layoutId": {
+                    "type": "string"
+                },
+                "siteId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "webId": {
+                    "type": "string"
+                }
+            },
+            "definitions": {
+                "IQuickLinksCommandProps": {
+                    "properties": {
+                        "addLinksString": {
+                            "type": "string"
+                        },
+                        "disableResultFromEmbedService": {
+                            "type": "boolean"
+                        },
+                        "maxItems": {
+                            "type": "number"
+                        },
+                        "quickLinks": {
+                            "items": {
+                                "$ref": "#/definitions/IQuickLink"
+                            },
+                            "type": "array"
+                        },
+                        "quickLinksTitle": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "addLinksString",
+                        "maxItems",
+                        "quickLinks",
+                        "quickLinksTitle"
+                    ],
+                    "type": "object"
+                },
+                "IQuickLink": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "$ref": "#/definitions/IQuickLinkCustomizedImageInfo"
+                        },
+                        "sourceItem": {
+                            "$ref": "#/definitions/ISourceItemInfo"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "thumbnailType": {
+                            "type": "number",
+                            "enum": [
+                                1,
+                                2,
+                                3
+                            ]
+                        },
+                        "rawPreviewImageUrl": {
+                            "type": "string"
+                        },
+                        "fabricReactIcon": {
+                            "$ref": "#/definitions/IQuickLinkFabricReactIconInfo"
+                        },
+                        "rawPreviewImageMinCanvasWidth": {
+                            "type": "number"
+                        },
+                        "audiences": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "id": {
+                            "type": "number"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "altText": {
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string"
+                        },
+                        "pictureUrl": {
+                            "type": "string"
+                        },
+                        "pictureGuids": {
+                            "$ref": "#/definitions/IGuidSet"
+                        },
+                        "isDecorative": {
+                            "type": "boolean"
+                        },
+                        "shouldOpenInNewTab": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "ISourceItemInfo": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        },
+                        "guids": {
+                            "$ref": "#/definitions/IGuidSet"
+                        },
+                        "itemType": {
+                            "type": "number",
+                            "enum": [
+                                0,
+                                1,
+                                2,
+                                3,
+                                4,
+                                5
+                            ]
+                        },
+                        "fileExtension": {
+                            "type": "string"
+                        },
+                        "progId": {
+                            "type": "string"
+                        },
+                        "videoDuration": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "IGuidSet": {
+                    "type": "object",
+                    "properties": {
+                        "siteId": {
+                            "type": "string"
+                        },
+                        "webId": {
+                            "type": "string"
+                        },
+                        "listId": {
+                            "type": "string"
+                        },
+                        "uniqueId": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "IQuickLinkCustomizedImageInfo": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        },
+                        "imageFit": {
+                            "type": "number",
+                            "enum": [
+                                0,
+                                1,
+                                2,
+                                3,
+                                4,
+                                5
+                            ]
+                        },
+                        "guids": {
+                            "ref": "#/definitions/IGuidSet"
+                        },
+                        "minCanvasWidth": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "url",
+                        "imageFit"
+                    ]
+                },
+                "IQuickLinkFabricReactIconInfo": {
+                    "type": "object",
+                    "properties": {
+                        "iconName": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "iconName"
+                    ]
+                },
+                "IButtonLayoutOptions": {
+                    "type": "object",
+                    "properties": {
+                        "iconPositionType": {
+                            "type": "number",
+                            "enum": [
+                                1,
+                                2,
+                                3
+                            ]
+                        },
+                        "buttonTreatment": {
+                            "type": "number",
+                            "enum": [
+                                1,
+                                2,
+                                3
+                            ]
+                        },
+                        "textAlignmentVertical": {
+                            "type": "number",
+                            "enum": [
+                                1,
+                                2
+                            ]
+                        },
+                        "textAlignmentHorizontal": {
+                            "type": "number",
+                            "enum": [
+                                2,
+                                3
+                            ]
+                        },
+                        "linesOfText": {
+                            "type": "number",
+                            "enum": [
+                                1,
+                                2
+                            ]
+                        },
+                        "showDescription": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "iconPositionType",
+                        "buttonTreatment",
+                        "textAlignmentVertical",
+                        "textAlignmentHorizontal",
+                        "linesOfText",
+                        "showDescription"
+                    ]
+                },
+                "IListLayoutOptions": {
+                    "type": "object",
+                    "properties": {
+                        "showDescription": {
+                            "type": "boolean"
+                        },
+                        "showIcon": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "showDescription",
+                        "showIcon"
+                    ]
+                },
+                "IWaffleLayoutOptions": {
+                    "type": "object",
+                    "properties": {
+                        "iconSize": {
+                            "type": "number",
+                            "enum": [
+                                0,
+                                1,
+                                2,
+                                3,
+                                4
+                            ]
+                        },
+                        "onlyShowThumbnail": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "iconSize",
+                        "onlyShowThumbnail"
+                    ]
+                }
+            },
+            "required": [
+                "items",
+                "hideWebPartWhenEmpty",
+                "isMigrated"
+            ]
+        }
+    },
+    "experimentalData": {
+        "flexibleLayoutSizing": {
+            "supportsDynamicResizing": false,
+            "defaultColumnWidth": 4,
+            "defaultRowHeight": 20
+        }
+    },
+    "loaderConfig": {
+        "internalModuleBaseUrls": [
+            "https://res-1.cdn.office.net:443/files/sp-client/",
+            "https://res-2.cdn.office.net:443/files/sp-client/"
+        ],
+        "entryModuleId": "sp-quick-links-webpart",
+        "scriptResources": {
+            "sp-quick-links-webpart": {
+                "type": "localizedPath",
+                "paths": {
+                    "default": {
+                        "path": "sp-quick-links-webpart_en-us_69ce9b36a871239f34a6.js",
+                        "integrity": "sha256-1mODgRajsM5veZ6nVBhc7cCx8JN6tXmJUtmCXNy8jg8="
+                    },
+                    "en-US": {
+                        "path": "sp-quick-links-webpart_en-us_69ce9b36a871239f34a6.js",
+                        "integrity": "sha256-1mODgRajsM5veZ6nVBhc7cCx8JN6tXmJUtmCXNy8jg8="
+                    }
+                },
+                "defaultPath": {
+                    "path": "sp-quick-links-webpart_en-us_69ce9b36a871239f34a6.js",
+                    "integrity": "sha256-1mODgRajsM5veZ6nVBhc7cCx8JN6tXmJUtmCXNy8jg8="
+                }
+            },
+            "tslib": {
+                "type": "component",
+                "id": "01c4df03-e775-48cb-aa14-171ee5199a15",
+                "version": "2.3.1"
+            },
+            "@microsoft/sp-core-library": {
+                "type": "component",
+                "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b",
+                "version": "1.20.0"
+            },
+            "@microsoft/sp-diagnostics": {
+                "type": "component",
+                "id": "78359e4b-07c2-43c6-8d0b-d060b4d577e8",
+                "version": "1.20.0"
+            },
+            "@microsoft/sp-http": {
+                "type": "component",
+                "id": "c07208f0-ea3b-4c1a-9965-ac1b825211a6",
+                "version": "1.20.0"
+            },
+            "@microsoft/sp-image-helper": {
+                "type": "component",
+                "id": "2c46c8f0-e214-4f49-951e-fd5b9d7b4ae1",
+                "version": "1.20.0"
+            },
+            "@microsoft/sp-lodash-subset": {
+                "type": "component",
+                "id": "73e1dc6c-8441-42cc-ad47-4bd3659f8a3a",
+                "version": "1.20.0"
+            },
+            "@ms/odsp-utilities-bundle": {
+                "type": "component",
+                "id": "cc2cc925-b5be-41bb-880a-f0f8030c6aff",
+                "version": "5.6.195"
+            },
+            "@ms/office-ui-fabric-react-bundle": {
+                "type": "component",
+                "id": "396bbc17-3d18-4f43-8299-d99720d88e22",
+                "version": "1.19.6"
+            },
+            "react": {
+                "type": "component",
+                "id": "0d910c1c-13b9-4e1c-9aa4-b008c5e42d7d",
+                "version": "17.0.1"
+            },
+            "@microsoft/load-themed-styles": {
+                "type": "component",
+                "id": "229b8d08-79f3-438b-8c21-4613fc877abd",
+                "version": "0.1.2"
+            },
+            "@ms/sp-component-utilities": {
+                "type": "component",
+                "id": "8494e7d7-6b99-47b2-a741-59873e42f16f",
+                "version": "12.52.18"
+            },
+            "@ms/sp-telemetry": {
+                "type": "component",
+                "id": "8217e442-8ed3-41fd-957d-b112e841286a",
+                "version": "0.32.116"
+            },
+            "@ms/sp-webpart-shared": {
+                "type": "component",
+                "id": "914330ee-2df2-4f6e-a858-30c23a812408",
+                "version": "2.2.20"
+            },
+            "@microsoft/sp-loader": {
+                "type": "component",
+                "id": "1c6c9123-7aac-41f3-a376-3caea41ed83f",
+                "version": "1.20.0"
+            },
+            "@ms/sp-quicklinks": {
+                "type": "component",
+                "id": "56b8f542-6bf1-4201-b697-35dd070787df",
+                "version": "0.1.0"
+            },
+            "@ms/sp-heading-level": {
+                "type": "component",
+                "id": "bf211556-3cf0-412c-9618-a4f0e7069ebf",
+                "version": "0.1.0"
+            },
+            "@ms/odsp-core-bundle": {
+                "type": "component",
+                "id": "2e09fb9b-13bb-48f2-859f-97d6fff71176",
+                "version": "1.4.195"
+            },
+            "@ms/sp-fluentui-migration-tooltip-bundle": {
+                "type": "component",
+                "id": "fab65e60-a04f-4772-874c-10691e4afa4b",
+                "version": "0.1.0"
+            },
+            "@ms/sp-fluentui-v9-utilities-bundle": {
+                "type": "component",
+                "id": "0ec74f52-38bc-4a51-ab82-7c91a2b399a2",
+                "version": "0.1.0"
+            },
+            "@odsp-ui/sharepoint-tokens-bundle": {
+                "type": "component",
+                "id": "c6e9b8a2-5f7d-4e0b-8b9b-1e3c7a9d3f4f",
+                "version": "0.1.0"
+            },
+            "@ms/sp-fluentui-migration-spinner-bundle": {
+                "type": "component",
+                "id": "89f063a9-3b5f-4ac2-a3ec-b598f37acb89",
+                "version": "0.1.0"
+            },
+            "@microsoft/sp-page-context": {
+                "type": "component",
+                "id": "1c4541f7-5c31-41aa-9fa8-fbc9dc14c0a8",
+                "version": "1.20.0"
+            },
+            "@microsoft/sp-webpart-base": {
+                "type": "component",
+                "id": "974a7777-0990-4136-8fa6-95d80114c2e0",
+                "version": "1.20.0"
+            }
+        }
+    },
+    "isInternal": true
+}

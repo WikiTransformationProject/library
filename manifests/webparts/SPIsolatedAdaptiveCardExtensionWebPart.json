@@ -1,0 +1,59 @@
+{
+    "manifestVersion": 2,
+    "id": "e6b93447-8007-4f1e-934f-754a0031a769",
+    "alias": "SPIsolatedAdaptiveCardExtensionWebPart",
+    "componentType": "WebPart",
+    "version": "1.0.0",
+    "safeWithCustomScriptDisabled": true,
+    "supportedHosts": [
+        "Dashboard"
+    ],
+    "hiddenFromToolbox": true,
+    "preconfiguredEntries": [
+        {
+            "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+            "group": {
+                "default": "Other"
+            },
+            "title": {
+                "default": "SPIsolatedAdaptiveCardExtensionWebPart",
+                "en-US": "SPIsolatedAdaptiveCardExtensionWebPart"
+            },
+            "description": {
+                "default": "SPIsolatedAdaptiveCardExtensionWebPart description",
+                "en-US": "SPIsolatedAdaptiveCardExtensionWebPart description"
+            },
+            "officeFabricIconFontName": "SharepointLogo",
+            "properties": {
+                "label": "This is an example property"
+            }
+        }
+    ],
+    "loaderConfig": {
+        "internalModuleBaseUrls": [
+            "https://res-1.cdn.office.net:443/files/sp-client/",
+            "https://res-2.cdn.office.net:443/files/sp-client/"
+        ],
+        "entryModuleId": "sp-isolated-adaptive-card-extension-web-part",
+        "scriptResources": {
+            "sp-isolated-adaptive-card-extension-web-part": {
+                "type": "path",
+                "path": {
+                    "path": "sp-isolated-adaptive-card-extension-web-part_none_5c73cb426bfff94794ab.js",
+                    "integrity": "sha256-2AI9bOkkXfQLFc24l/sz6sO22Pq7QIxo6MAOTC+VeCE="
+                }
+            },
+            "tslib": {
+                "type": "component",
+                "id": "01c4df03-e775-48cb-aa14-171ee5199a15",
+                "version": "2.3.1"
+            },
+            "@ms/sp-adaptive-card-extension-isolation-component-base": {
+                "type": "component",
+                "id": "e4a85d33-d155-4e2f-812a-0816c2568bdc",
+                "version": "0.1.0"
+            }
+        }
+    },
+    "isInternal": true
+}

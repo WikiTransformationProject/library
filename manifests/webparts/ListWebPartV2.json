@@ -1,0 +1,221 @@
+{
+    "manifestVersion": 2,
+    "id": "a572f711-58d9-473f-a827-ac3ffd529516",
+    "alias": "ListWebPartV2",
+    "componentType": "WebPart",
+    "version": "1.0.0",
+    "safeWithCustomScriptDisabled": false,
+    "supportsThemeVariants": true,
+    "hiddenFromToolbox": true,
+    "preconfiguredEntries": [
+        {
+            "groupId": "1edbd9a8-0bfb-4aa2-9afd-14b8c45dd489",
+            "group": {
+                "default": "Under development",
+                "en-US": "Under development"
+            },
+            "title": {
+                "default": "List",
+                "en-US": "List"
+            },
+            "description": {
+                "default": "Display a list from this site.",
+                "en-US": "Display a list from this site."
+            },
+            "officeFabricIconFontName": "CustomList",
+            "properties": {
+                "isDocumentLibrary": false,
+                "filterBy": {}
+            }
+        },
+        {
+            "groupId": "1edbd9a8-0bfb-4aa2-9afd-14b8c45dd489",
+            "group": {
+                "default": "Under development",
+                "en-US": "Under development"
+            },
+            "title": {
+                "default": "Document library",
+                "en-US": "Document library"
+            },
+            "description": {
+                "default": "Show a document library from this site.",
+                "en-US": "Show a document library from this site."
+            },
+            "officeFabricIconFontName": "FabricDocLibrary",
+            "properties": {
+                "isDocumentLibrary": true,
+                "filterBy": {}
+            }
+        }
+    ],
+    "propertiesMetadata": {
+        "current": {
+            "selectedListId": {
+                "spfxDependency": {
+                    "dependencyType": "list",
+                    "identifierType": "ListGuid",
+                    "name": "mainList"
+                }
+            },
+            "selectedViewId": {
+                "spfxDependency": {
+                    "dependencyType": "list",
+                    "identifierType": "ViewGuid",
+                    "name": "mainList"
+                }
+            },
+            "selectedListUrl": {
+                "spfxDependency": {
+                    "dependencyType": "list",
+                    "identifierType": "url",
+                    "identifierUrlSubType": 4
+                }
+            },
+            "webRelativeListUrl": {
+                "spfxDependency": {
+                    "dependencyType": "list",
+                    "identifierType": "url",
+                    "identifierUrlSubType": 2
+                }
+            }
+        }
+    },
+    "loaderConfig": {
+        "internalModuleBaseUrls": [
+            "https://res-1.cdn.office.net:443/files/sp-client/",
+            "https://res-2.cdn.office.net:443/files/sp-client/"
+        ],
+        "entryModuleId": "sp-list-webpart-v2",
+        "scriptResources": {
+            "sp-list-webpart-v2": {
+                "type": "localizedPath",
+                "paths": {
+                    "default": {
+                        "path": "sp-list-webpart-v2_en-us_be95ea45acfff1c3d405.js",
+                        "integrity": "sha256-E57LI6dxJGVdLA+wCGX4cKjKXfoLg4nwL7dcx5d/WPI="
+                    },
+                    "en-US": {
+                        "path": "sp-list-webpart-v2_en-us_be95ea45acfff1c3d405.js",
+                        "integrity": "sha256-E57LI6dxJGVdLA+wCGX4cKjKXfoLg4nwL7dcx5d/WPI="
+                    }
+                },
+                "defaultPath": {
+                    "path": "sp-list-webpart-v2_en-us_be95ea45acfff1c3d405.js",
+                    "integrity": "sha256-E57LI6dxJGVdLA+wCGX4cKjKXfoLg4nwL7dcx5d/WPI="
+                }
+            },
+            "tslib": {
+                "type": "component",
+                "id": "01c4df03-e775-48cb-aa14-171ee5199a15",
+                "version": "2.3.1"
+            },
+            "@microsoft/sp-webpart-base": {
+                "type": "component",
+                "id": "974a7777-0990-4136-8fa6-95d80114c2e0",
+                "version": "1.20.0"
+            },
+            "react": {
+                "type": "component",
+                "id": "0d910c1c-13b9-4e1c-9aa4-b008c5e42d7d",
+                "version": "17.0.1"
+            },
+            "react-dom": {
+                "type": "component",
+                "id": "aa0a46ec-1505-43cd-a44a-93f3a5aa460a",
+                "version": "17.0.1"
+            },
+            "@microsoft/sp-diagnostics": {
+                "type": "component",
+                "id": "78359e4b-07c2-43c6-8d0b-d060b4d577e8",
+                "version": "1.20.0"
+            },
+            "@ms/odsp-core-bundle": {
+                "type": "component",
+                "id": "2e09fb9b-13bb-48f2-859f-97d6fff71176",
+                "version": "1.4.195"
+            },
+            "@ms/odsp-utilities-bundle": {
+                "type": "component",
+                "id": "cc2cc925-b5be-41bb-880a-f0f8030c6aff",
+                "version": "5.6.195"
+            },
+            "@ms/uifabric-styling-bundle": {
+                "type": "component",
+                "id": "17ce0976-e69a-4355-be84-89b69a74717d",
+                "version": "0.3.15"
+            },
+            "@ms/sp-webpart-shared": {
+                "type": "component",
+                "id": "914330ee-2df2-4f6e-a858-30c23a812408",
+                "version": "2.2.20"
+            },
+            "@microsoft/load-themed-styles": {
+                "type": "component",
+                "id": "229b8d08-79f3-438b-8c21-4613fc877abd",
+                "version": "0.1.2"
+            },
+            "@microsoft/sp-core-library": {
+                "type": "component",
+                "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b",
+                "version": "1.20.0"
+            },
+            "@ms/sp-telemetry": {
+                "type": "component",
+                "id": "8217e442-8ed3-41fd-957d-b112e841286a",
+                "version": "0.32.116"
+            },
+            "@ms/sp-fluentui-migration-reactdom-render-bundle": {
+                "type": "component",
+                "id": "63d75709-2785-4c91-97ad-489b171397d4",
+                "version": "0.1.0"
+            },
+            "@ms/office-ui-fabric-react-bundle": {
+                "type": "component",
+                "id": "396bbc17-3d18-4f43-8299-d99720d88e22",
+                "version": "1.19.6"
+            },
+            "@ms/sp-dataproviders": {
+                "type": "component",
+                "id": "1cea229f-b208-4202-8014-22503d92a019",
+                "version": "0.1.0"
+            },
+            "@microsoft/sp-http": {
+                "type": "component",
+                "id": "c07208f0-ea3b-4c1a-9965-ac1b825211a6",
+                "version": "1.20.0"
+            },
+            "@ms/sp-listview-common": {
+                "type": "component",
+                "id": "5f18a9a1-d34e-4b05-a71f-e5e554d8649b",
+                "version": "0.1.0"
+            },
+            "@microsoft/sp-component-base": {
+                "type": "component",
+                "id": "467dc675-7cc5-4709-8aac-78e3b71bd2f6",
+                "version": "1.20.0"
+            },
+            "@ms/sp-deferred-component": {
+                "type": "component",
+                "id": "fa4155f6-2498-4a20-8406-5cb3b385b142",
+                "version": "0.6.1"
+            },
+            "@ms/sp-fluentui-migration-label-bundle": {
+                "type": "component",
+                "id": "ffe5c101-373a-4bd2-bebb-13082852bab0",
+                "version": "0.1.0"
+            },
+            "@ms/sp-fluentui-migration-toggle-bundle": {
+                "type": "component",
+                "id": "91976643-f860-4be9-ba8f-32b82339a0ca",
+                "version": "0.1.0"
+            },
+            "@microsoft/sp-loader": {
+                "type": "component",
+                "id": "1c6c9123-7aac-41f3-a376-3caea41ed83f",
+                "version": "1.20.0"
+            }
+        }
+    },
+    "isInternal": true
+}
