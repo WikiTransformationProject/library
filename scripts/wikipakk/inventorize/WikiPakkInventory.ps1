@@ -46,12 +46,13 @@
 #>
 
 $ErrorActionPreference = 'Stop'
+Set-Location -Path $PSScriptRoot
 
 # v--------CONFIGURE THOSE========
 $tenantAdminUrl = "https://contoso-admin.sharepoint.com"
 $tenant = "contoso.onmicrosoft.com"
 # note: app need application permissions Sites.FullControl.All Graph and SharePoint permissions to iterate over all sites
-$clientId = "abba7a8a-5377-4d00-a0bc-f700f379b546"
+$clientId = "0a7c32d1-fdd2-4389-b49d-910cfccfc96b"
 $certificatePath = Join-Path "." "cert.pfx"
 # ========CONFIGURATION END========
 
@@ -68,6 +69,7 @@ if (-not $web)
 
 $foundUrls = @()
 $allSiteUrls = Get-PnPTenantSite | Select-Object -ExpandProperty Url
+
 Disconnect-PnPOnline
 foreach ($siteUrl in $allSiteUrls)
 {
@@ -85,9 +87,79 @@ foreach ($siteUrl in $allSiteUrls)
     if ($wikiPakkHierarchyList)
     {
         Write-Host "Found WikiPakk in site $siteUrl" -ForegroundColor Green -BackgroundColor Black
-        $foundUrls += $siteUrl
+
+        # need to have Modified indexed to efficiently query for the most recently modified item
+        $fieldInfo = Get-PnPField -List $wikiPakkHierarchyList -Identity "Modified" -Includes Indexed -Connection $siteCon
+        if (-not $fieldInfo.Indexed)
+        {
+            Write-Host "Making Modified column indexed..." -ForegroundColor DarkGray -BackgroundColor Black
+            $fieldInfo.Indexed = $true
+            $fieldInfo.Update()
+            (Get-PnPContext -Connection $siteCon).ExecuteQuery()
+            Write-Host "DONE: Making Modified column indexed" -ForegroundColor DarkGray -BackgroundColor Black
+        } else 
+        {
+            Write-Host "Modified column is indexed, good" -ForegroundColor DarkGray -BackgroundColor Black
+        }
+
+        $maxModifiedDate = [DateTime]::MinValue
+        $lastEditor = ""
+        
+        # getting the most recently modified element works via REST API even when exceeding the list view threshold; CAML doesn't work
+        $apiUrl = '/_api/web/lists/GetByTitle(''DONOTMODIFY WikiTraccs Page Tree Data'')/items?$select=ID&$orderby=Modified desc&$top=1'
+        $response = Invoke-PnPSPRestMethod -Url $apiUrl -Method Get -Connection $siteCon
+        
+        $latestItem = $null
+        if ($response.value.Count -eq 1)
+        {
+            $item = $response.value[0]
+            $itemId = $item.ID
+            Write-Host "Identified item $itemId as being last modified" -ForegroundColor DarkGray -BackgroundColor Black
+
+            $latestItem = Get-PnPListItem -List $wikiPakkHierarchyList -Id $itemId -Connection $siteCon
+        }
+        if ($latestItem)
+        {
+            $maxModifiedDate = $latestItem["Modified"]
+            $lastEditor = $latestItem["Editor"].Email
+
+        } else
+        # note: the following code iterates the list items rather than getting the most recently modified one via REST; fallback if REST doesn't work as expected
+        # note2: this will also be triggered if there are no items in the list, but so be it
+        {        
+            $listItems = Get-PnPListItem -List $wikiPakkHierarchyList -PageSize 4999 -Connection $siteCon
+            Write-Host "Checking $($listItems.Count) list items to determine last modified date and last editor..." -ForegroundColor Green -BackgroundColor Black
+            $counter = 0
+            foreach ($listItem in $listItems)
+            {
+                $counter++
+                Write-Host "$counter " -NoNewline -ForegroundColor DarkGray -BackgroundColor Black
+                $item = Get-PnPListItem -List $wikiPakkHierarchyList -Id $listItem.Id -Fields Modified,Editor -Connection $siteCon
+                if ($item["Modified"] -gt $maxModifiedDate)
+                {
+                    $maxModifiedDate = $item["Modified"]
+                    $lastEditor = $item["Editor"].Email
+                }
+            }
+        }
+        Write-Host ""
+        Write-Host "...page tree was last MODIFIED on $($maxModifiedDate.ToString("o")) by $($lastEditor)" -ForegroundColor Green -BackgroundColor Black
+        $foundUrls += @{
+            SiteUrl = $siteUrl
+            MaxModifiedDate = $maxModifiedDate
+            LastEditor = $lastEditor
+        }
     }
 }
-Write-Host "DONE; Summary:"  -ForegroundColor White -BackgroundColor Black
-$foundUrls
+Write-Host ""
+Write-Host "DONE"
+Write-Host "Summary (Site URL, last modified date, last editor):" -ForegroundColor White -BackgroundColor Black
+Write-Host "----------------------------------------------------------" -ForegroundColor White -BackgroundColor Black
+foreach ($foundUrl in $foundUrls)
+{
+    Write-Host  "$($foundUrl.SiteUrl), $($foundUrl.MaxModifiedDate.ToString("o")), $($foundUrl.LastEditor)" -ForegroundColor Green -BackgroundColor Black
+}
+Write-Host ""
 Write-Host "$($foundUrls.Count) sites with WikiPakk" -ForegroundColor Green -BackgroundColor Black
+Write-Host ""
+Write-Host "IMPORTANT: Above statistics list MODIFICATIONS to the WikiPakk page tree (reordering); this does NOT cover READ-ONLY usage" -ForegroundColor Yellow -BackgroundColor Black
